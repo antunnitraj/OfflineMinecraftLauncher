@@ -37,6 +37,7 @@
             btnStart = new Button();
             usernameInput = new TextBox();
             label2 = new Label();
+            minecraftVersion = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -50,11 +51,10 @@
             // 
             // cbVersion
             // 
-            cbVersion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cbVersion.FormattingEnabled = true;
             cbVersion.Location = new Point(12, 71);
             cbVersion.Name = "cbVersion";
-            cbVersion.Size = new Size(407, 23);
+            cbVersion.Size = new Size(230, 23);
             cbVersion.TabIndex = 1;
             // 
             // pbFiles
@@ -62,7 +62,7 @@
             pbFiles.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbFiles.Location = new Point(12, 148);
             pbFiles.Name = "pbFiles";
-            pbFiles.Size = new Size(407, 20);
+            pbFiles.Size = new Size(380, 20);
             pbFiles.TabIndex = 3;
             // 
             // pbProgress
@@ -70,7 +70,7 @@
             pbProgress.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pbProgress.Location = new Point(12, 177);
             pbProgress.Name = "pbProgress";
-            pbProgress.Size = new Size(407, 20);
+            pbProgress.Size = new Size(380, 20);
             pbProgress.TabIndex = 4;
             // 
             // lbProgress
@@ -87,7 +87,7 @@
             btnStart.Location = new Point(12, 100);
             btnStart.Margin = new Padding(0);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(407, 23);
+            btnStart.Size = new Size(380, 25);
             btnStart.TabIndex = 7;
             btnStart.Text = "Launch";
             btnStart.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
             usernameInput.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             usernameInput.Location = new Point(12, 27);
             usernameInput.Name = "usernameInput";
-            usernameInput.Size = new Size(407, 23);
+            usernameInput.Size = new Size(380, 23);
             usernameInput.TabIndex = 9;
             // 
             // label2
@@ -110,11 +110,24 @@
             label2.TabIndex = 8;
             label2.Text = "Username:";
             // 
+            // minecraftVersion
+            // 
+            minecraftVersion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            minecraftVersion.FormattingEnabled = true;
+            minecraftVersion.Items.AddRange(new object[] { "Releases and Installed", "All Versions" });
+            minecraftVersion.Location = new Point(252, 71);
+            minecraftVersion.Name = "minecraftVersion";
+            minecraftVersion.Size = new Size(140, 23);
+            minecraftVersion.TabIndex = 10;
+            minecraftVersion.Text = "Releases and Installed";
+            minecraftVersion.SelectedIndexChanged += minecraftVersion_SelectedIndexChanged;
+            // 
             // LauncherForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(434, 211);
+            ClientSize = new Size(404, 211);
+            Controls.Add(minecraftVersion);
             Controls.Add(usernameInput);
             Controls.Add(label2);
             Controls.Add(btnStart);
@@ -124,8 +137,8 @@
             Controls.Add(cbVersion);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximumSize = new Size(450, 250);
-            MinimumSize = new Size(450, 250);
+            MaximumSize = new Size(420, 250);
+            MinimumSize = new Size(420, 250);
             Name = "LauncherForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Offline Minecraft Launcher";
@@ -142,7 +155,7 @@
         private ProgressBar pbProgress;
         private Label lbProgress;
         private Button btnStart;
-        private ComboBox comboBox1;
+        private ComboBox minecraftVersion;
         private TextBox usernameInput;
         private Label label2;
     }

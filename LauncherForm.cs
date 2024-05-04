@@ -7,20 +7,14 @@ namespace OfflineMinecraftLauncher;
 
 public partial class LauncherForm : Form
 {
-    private readonly MSession _session;
     private readonly CMLauncher _launcher;
 
     public LauncherForm()
     {
-        // Make Offline MSession
-        _session = new MSession
-        {
-            AccessToken = "0",
-            UUID = "00000000000000000000000000000000"
-        };
-
         // Make CMLauncher with default minecraft path
         _launcher = new CMLauncher(new MinecraftPath());
+
+        // Attach events with functions
         _launcher.FileChanged += _launcher_FileChanged;
         _launcher.ProgressChanged += _launcher_ProgressChanged;
 
@@ -30,11 +24,11 @@ public partial class LauncherForm : Form
 
     private async void LauncherForm_Load(object sender, EventArgs e)
     {
-        // Load settings
+        // Load previous used values in the inputs
         usernameInput.Text = Properties.Settings.Default.Username;
         cbVersion.Text = Properties.Settings.Default.Version;
 
-        // Set default Username to Environment Username
+        // Set default username to Environment.UserName if empty
         if (string.IsNullOrEmpty(usernameInput.Text))
             usernameInput.Text = Environment.UserName;
 
@@ -42,16 +36,17 @@ public partial class LauncherForm : Form
         await listVersions();
     }
 
-    private async Task listVersions()
+    private async Task listVersions(bool includeAll = false)
     {
         // Clear list
         cbVersion.Items.Clear();
 
-        // List all release versions
+        // List all versions
         var versions = await _launcher.GetAllVersionsAsync();
         foreach (var version in versions)
         {
-            if (version.MType == MVersionType.Release)
+            // Check if includeAll is enabled
+            if (version.MType == MVersionType.Release || version.MType == MVersionType.Custom || includeAll)
                 cbVersion.Items.Add(version.Name);
         }
 
@@ -66,17 +61,17 @@ public partial class LauncherForm : Form
         this.Enabled = false;
         btnStart.Text = "Launching";
 
-        // Try to launch Minecraft
-        _session.Username = usernameInput.Text;
+        // Try to launch Minecraft with an Offline session
         try
         {
+            var session = MSession.CreateOfflineSession(usernameInput.Text);
             var process = await _launcher.CreateProcessAsync(cbVersion.Text, new MLaunchOption
             {
-                Session = _session
+                Session = session
             });
             new ProcessUtil(process).StartWithEvents();
 
-            // Save Setting
+            // Save values
             Properties.Settings.Default.Username = usernameInput.Text;
             Properties.Settings.Default.Version = cbVersion.Text;
             Properties.Settings.Default.Save();
@@ -111,5 +106,11 @@ public partial class LauncherForm : Form
         pbFiles.Value = e.ProgressedFileCount;
 
         lbProgress.Text = $"[{e.FileKind}] {e.FileName} - {e.ProgressedFileCount} / {e.TotalFileCount}";
+    }
+
+    private async void minecraftVersion_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // Load all versions if "All Versions" is selected
+        await listVersions(minecraftVersion.Text == "All Versions");
     }
 }
