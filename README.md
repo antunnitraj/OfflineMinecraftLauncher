@@ -1,5 +1,5 @@
 # About this project
-Play minecraft without a microsoft account that owns Minecraft. This launcher is made with [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)<br>
+Play minecraft without a Microsoft account that owns Minecraft. This launcher is made with [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)<br>
 ⚠️ This is for entertainment purposes only ⚠️
 
 # Screenshot
