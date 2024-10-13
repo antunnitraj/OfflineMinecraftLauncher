@@ -5,8 +5,8 @@ Play Minecraft without a Microsoft account that owns Minecraft. This launcher is
 # Screenshot
 ![image](https://github.com/antunnitraj/OfflineMinecraftLauncher/assets/69330974/3c50c620-81e9-401d-99b8-e5209c3303d2)
 
-# Installation
-Download the latest setup from the [Releases](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases) and install it!
+# Download
+Download the "msi" setup from the [Releases](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest) and install it!
 
 # I want something more customizable with offline support
 Well, do I have some great news for you! You can download Prism Launcher and apply [this](https://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass) offline bypass that I made. Enjoy!
