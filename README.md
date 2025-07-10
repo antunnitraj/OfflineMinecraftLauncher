@@ -34,13 +34,3 @@ Try the enhanced offline experience with Prism Launcher:
 ---
 
 <div align="center">
-  
-  ```mermaid
-  graph LR
-    A[Download Installer] --> B[Run Setup]
-    B --> C[Launch Game]
-    C --> D[Play Offline!]
-    style A fill:#bd93f9,stroke:#666
-    style B fill:#ff79c6,stroke:#666
-    style C fill:#50fa7b,stroke:#666
-    style D fill:#8be9fd,stroke:#666
