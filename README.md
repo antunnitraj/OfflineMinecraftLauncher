@@ -20,7 +20,6 @@
 - 🔒 100% offline gameplay
 - 🖥️ Clean modern interface
 - ⚡ One-click installation
-- 🎨 Dark theme with doodle accents
 
 ## 🚀 Getting Started
 1. Download the `MSI installer` from [Releases](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest)
