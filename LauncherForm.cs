@@ -31,7 +31,7 @@ public partial class LauncherForm : Form
         // Set default username to Environment.UserName if empty
         if (string.IsNullOrEmpty(usernameInput.Text))
             usernameInput.Text = Environment.UserName;
-
+        
         // When loaded, list all versions
         await listVersions();
     }
@@ -65,6 +65,11 @@ public partial class LauncherForm : Form
         try
         {
             var session = MSession.CreateOfflineSession(usernameInput.Text);
+  
+            // Set UUID from properties if available
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.Uuid))
+                session.UUID = Properties.Settings.Default.Uuid;
+                
             var process = await _launcher.CreateProcessAsync(cbVersion.Text, new MLaunchOption
             {
                 Session = session
@@ -73,6 +78,7 @@ public partial class LauncherForm : Form
 
             // Save values
             Properties.Settings.Default.Username = usernameInput.Text;
+            Properties.Settings.Default.Uuid = session.UUID;
             Properties.Settings.Default.Version = cbVersion.Text;
             Properties.Settings.Default.Save();
 
