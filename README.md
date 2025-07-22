@@ -1,4 +1,4 @@
-# 🎮 Offline Minecraft Launcher 
+# Offline Minecraft Launcher 
 
 > **Play Minecraft without a Microsoft account**  
 > ⚠️ For entertainment purposes only ⚠️  
@@ -27,9 +27,5 @@
 3. Launch and play!
 
 ## 🧩 Want More Customization?
-Try the enhanced offline experience with Prism Launcher:  
-[![Prism Bypass](https://img.shields.io/badge/GET_Prism_Bypass-8be9fd?style=flat-square)](https://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass)
-
----
-
-<div align="center">
+Try the enhanced offline experience with Prism Launcher using my
+[Prism Launcher Bypass](https://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass)
