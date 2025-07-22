@@ -1,8 +1,7 @@
-# Offline Minecraft Launcher 
-
-> **Play Minecraft without a Microsoft account**  
-> ⚠️ For entertainment purposes only ⚠️  
-> *Powered by [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)*
+## About
+- ⚠️ For entertainment purposes only ⚠️
+- Play Minecraft without a Microsoft account
+- *Powered by [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)*
 
 <div align="center">
 
@@ -14,17 +13,17 @@
 
 ---
 
-## ✨ Features
+## Features
 - 🚫 No Microsoft account required
 - 🔒 100% offline gameplay
 - 🖥️ Clean modern interface
 - ⚡ One-click installation
 
-## 🚀 Getting Started
+## Getting Started
 1. Download the `MSI installer` from [Releases](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest)
 2. Run the installer
 3. Launch and play!
 
-## 🧩 Want More Customization?
+## Want More Customization?
 Try the enhanced offline experience with Prism Launcher using my
 [Prism Launcher Bypass](https://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass)
