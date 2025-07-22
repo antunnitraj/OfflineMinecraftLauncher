@@ -5,11 +5,10 @@
 > *Powered by [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)*
 
 <div align="center">
-  
-  ![Modern Launcher UI](https://github.com/antunnitraj/OfflineMinecraftLauncher/assets/69330974/3c50c620-81e9-401d-99b8-e5209c3303d2)
 
-  [![Download Now](https://img.shields.io/badge/Download-Windows_Installer-50fa7b?style=for-the-badge&logo=windows)](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest)
-  [![Customizable Version](https://img.shields.io/badge/Prism_Launcher_Mod-Custom_Bypass-ff79c6?style=for-the-badge)](https://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass)
+  <img src="https://github.com/antunnitraj/OfflineMinecraftLauncher/assets/69330974/3c50c620-81e9-401d-99b8-e5209c3303d2">
+  <br><br>
+  <a href="https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest"><img src="https://img.shields.io/badge/Download-Windows_Installer-50fa7b?style=for-the-badge&logo=windows"></a> <a href="hhttps://github.com/antunnitraj/Prism-Launcher-PolyMC-Offline-Bypass"><img src="https://img.shields.io/badge/Prism_Launcher_Mod-Custom_Bypass-ff79c6?style=for-the-badge"></a>
 
 </div>
 
