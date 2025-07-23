@@ -114,7 +114,7 @@ namespace OfflineMinecraftLauncher
                      | ((ulong)bytes[12] << 24) | ((ulong)bytes[13] << 16) | ((ulong)bytes[14] << 8) | bytes[15];
 
             long xor = (long)(hi ^ lo);
-            int idx = (int)(xor ^ ((xor >> 32) & 0xffffffff)) % arrayLength;
+            int idx = (int)(xor ^ ((xor >> 32) & 0xffffffff)) % characterSet.Length;
             if (idx < 0) idx += characterSet.Length;
 
             return characterSet[idx];
