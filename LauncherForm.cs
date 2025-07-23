@@ -1,13 +1,14 @@
 using CmlLib.Core;
 using CmlLib.Core.Auth;
-using CmlLib.Core.Version;
-using CmlLib.Utils;
+using CmlLib.Core.Installers;
+using CmlLib.Core.ProcessBuilder;
+using CmlLib.Core.VersionMetadata;
 
 namespace OfflineMinecraftLauncher;
 
 public partial class LauncherForm : Form
 {
-    private readonly CMLauncher _launcher;
+    private readonly MinecraftLauncher _launcher;
 
     private string _playerUuid = string.Empty;
 
@@ -16,11 +17,11 @@ public partial class LauncherForm : Form
     public LauncherForm()
     {
         // Make CMLauncher with default minecraft path
-        _launcher = new CMLauncher(new MinecraftPath());
+        _launcher = new MinecraftLauncher(new MinecraftPath());
 
         // Attach events with functions
-        _launcher.FileChanged += _launcher_FileChanged;
-        _launcher.ProgressChanged += _launcher_ProgressChanged;
+        _launcher.FileProgressChanged += _launcher_FileProgressChanged;
+        _launcher.ByteProgressChanged += _launcher_ByteProgressChanged;
 
         // Load UI
         InitializeComponent();
@@ -54,13 +55,13 @@ public partial class LauncherForm : Form
         foreach (var version in versions)
         {
             // Check if includeAll is enabled
-            if (version.MType == MVersionType.Release || version.MType == MVersionType.Custom || includeAll)
+            if (version.GetVersionType() == MVersionType.Release || version.GetVersionType() == MVersionType.Custom || includeAll)
                 cbVersion.Items.Add(version.Name);
         }
 
         // Default latest if not already set
         if (string.IsNullOrEmpty(cbVersion.Text))
-            cbVersion.Text = versions.LatestReleaseVersion?.Name;
+            cbVersion.Text = versions.LatestReleaseName;
     }
 
     private async void btnStart_Click(object sender, EventArgs e)
@@ -75,11 +76,12 @@ public partial class LauncherForm : Form
             var session = MSession.CreateOfflineSession(usernameInput.Text);
             session.UUID = _playerUuid;
 
-            var process = await _launcher.CreateProcessAsync(cbVersion.Text, new MLaunchOption
+            await _launcher.InstallAsync(cbVersion.Text);
+            var process = await _launcher.BuildProcessAsync(cbVersion.Text, new MLaunchOption
             {
                 Session = session
             });
-            new ProcessUtil(process).StartWithEvents();
+            process.Start();
 
             // Save values
             Properties.Settings.Default.Username = usernameInput.Text;
@@ -104,18 +106,17 @@ public partial class LauncherForm : Form
         btnStart.Text = "Launch";
     }
 
-    private void _launcher_ProgressChanged(object? sender, System.ComponentModel.ProgressChangedEventArgs e)
+    private void _launcher_FileProgressChanged(object? sender, InstallerProgressChangedEventArgs args)
     {
-        pbProgress.Maximum = 100;
-        pbProgress.Value = e.ProgressPercentage;
+        pbFiles.Maximum = args.TotalTasks;
+        pbFiles.Value = args.ProgressedTasks;
+        lbProgress.Text = $"{args.Name} - {args.ProgressedTasks} / {args.TotalTasks}";
     }
 
-    private void _launcher_FileChanged(CmlLib.Core.Downloader.DownloadFileChangedEventArgs e)
+    private void _launcher_ByteProgressChanged(object? sender, ByteProgress args)
     {
-        pbFiles.Maximum = e.TotalFileCount;
-        pbFiles.Value = e.ProgressedFileCount;
-
-        lbProgress.Text = $"[{e.FileKind}] {e.FileName} - {e.ProgressedFileCount} / {e.TotalFileCount}";
+        pbProgress.Maximum = ((int)args.TotalBytes);
+        pbProgress.Value = ((int)args.ProgressedBytes);
     }
 
     private void usernameInput_TextChanged(object sender, EventArgs e)
