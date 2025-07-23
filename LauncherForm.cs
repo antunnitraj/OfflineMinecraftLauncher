@@ -9,6 +9,10 @@ public partial class LauncherForm : Form
 {
     private readonly CMLauncher _launcher;
 
+    private string _playerUuid = string.Empty;
+
+    private ToolTip _characterPreviewTooltip = new ToolTip();
+
     public LauncherForm()
     {
         // Make CMLauncher with default minecraft path
@@ -31,6 +35,10 @@ public partial class LauncherForm : Form
         // Set default username to Environment.UserName if empty
         if (string.IsNullOrEmpty(usernameInput.Text))
             usernameInput.Text = Environment.UserName;
+
+        // Adding tooltip to the character picture box and help icon
+        new ToolTip().SetToolTip(characterHelpPictureBox, characterHelpPictureBox.Tag?.ToString());
+        _characterPreviewTooltip.SetToolTip(characterPictureBox, characterPictureBox.Tag?.ToString());
 
         // When loaded, list all versions
         await listVersions();
@@ -65,6 +73,8 @@ public partial class LauncherForm : Form
         try
         {
             var session = MSession.CreateOfflineSession(usernameInput.Text);
+            session.UUID = _playerUuid;
+
             var process = await _launcher.CreateProcessAsync(cbVersion.Text, new MLaunchOption
             {
                 Session = session
@@ -108,9 +118,56 @@ public partial class LauncherForm : Form
         lbProgress.Text = $"[{e.FileKind}] {e.FileName} - {e.ProgressedFileCount} / {e.TotalFileCount}";
     }
 
+    private void usernameInput_TextChanged(object sender, EventArgs e)
+    {
+        // Disabling the start button if the username is empty
+        if (string.IsNullOrEmpty(usernameInput.Text))
+        {
+            // If the username is empty, reset the UUID and character picture
+            _playerUuid = string.Empty;
+            _characterPreviewTooltip.SetToolTip(characterPictureBox, null);
+            characterPictureBox.Image = null;
+            characterPictureBox.Tag = null;
+            btnStart.Enabled = false; // Disable the start button if username is empty
+            return;
+        }
+        else
+        {
+            btnStart.Enabled = true;
+        }
+
+        // Update the UUID when the username changes
+        _playerUuid = Character.GenerateUuidFromUsername(usernameInput.Text);
+
+        // Update character picture box
+        updateCharacterPreview();
+    }
+
     private async void minecraftVersion_SelectedIndexChanged(object sender, EventArgs e)
     {
         // Load all versions if "All Versions" is selected
         await listVersions(minecraftVersion.Text == "All Versions");
     }
+
+    private void cbVersion_TextChanged(object sender, EventArgs e)
+    {
+        updateCharacterPreview();
+    }
+
+    private void updateCharacterPreview()
+    {
+        // Update the character preview based on the selected version
+        string resourceName = Character.GetCharacterResourceNameFromUuidAndGameVersion(_playerUuid, cbVersion.Text);
+        if (!string.IsNullOrEmpty(resourceName))
+        {
+            Bitmap? bitmapFromResources = (Bitmap?)Properties.Resources.ResourceManager.GetObject(resourceName);
+            if (bitmapFromResources != null)
+            {
+                characterPictureBox.Image = bitmapFromResources;
+                characterPictureBox.Tag = resourceName.Replace("_", " ");
+                _characterPreviewTooltip.SetToolTip(characterPictureBox, characterPictureBox.Tag?.ToString());
+            }
+        }
+    }
+
 }
