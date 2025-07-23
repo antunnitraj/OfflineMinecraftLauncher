@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -190,15 +198,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OfflineMinecraftLauncher"
-        "ProductCode" = "8:{B30704EE-9073-401F-9ADA-1591475EA84E}"
-        "PackageCode" = "8:{64643177-A436-4B93-B749-0E88967B61E8}"
+        "ProductCode" = "8:{FADDF4D8-4732-4C40-8D5C-7681A240753B}"
+        "PackageCode" = "8:{B2E3CE94-6601-44E2-99CE-589F17ECA081}"
         "UpgradeCode" = "8:{2943F4B8-222C-45B5-A1FE-26284FE29AAB}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.2.1"
         "Manufacturer" = "8:Github"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
