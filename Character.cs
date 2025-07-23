@@ -35,8 +35,16 @@ namespace OfflineMinecraftLauncher
             // Splitting the version for pre-release versions and snapshots
             // We will consider a pre-release as a full release for character selection
             minecraftVersion = minecraftVersion.Split("-")[0].Split(" ")[0];
+            if (string.IsNullOrWhiteSpace(minecraftVersion))
+                return CharacterResourceNamesOlder;
 
-            if (Version.TryParse(minecraftVersion, out var version))
+            // Remove suffixes like -pre1, -rc1, Pre-Release 2, etc.
+            var versionPart = minecraftVersion.Split('-')[0].Split(' ')[0];
+
+            if (string.IsNullOrWhiteSpace(versionPart))
+                return CharacterResourceNamesOlder;
+
+            if (Version.TryParse(versionPart, out var version))
             {
                 if (version >= new Version(1, 19, 3))
                     return CharacterResourceNames1193;
@@ -45,11 +53,12 @@ namespace OfflineMinecraftLauncher
             }
             else
             {
-                // Detecting snapshots xxWxx (ex: 22w04a)
-                if (Regex.IsMatch(minecraftVersion, @"^\d{2}w\d{2}[a-z].*$"))
+                // Try to match snapshot format, e.g. 22w45a
+                var match = Regex.Match(minecraftVersion, @"^(?<yy>\d{2})w(?<ww>\d{2})[a-z]$", RegexOptions.IgnoreCase);
+                if (match.Success)
                 {
-                    uint year = uint.Parse(minecraftVersion.Substring(0, 2)) + 2000;
-                    uint week = uint.Parse(minecraftVersion.Substring(3, 2));
+                    int year = int.Parse(match.Groups["yy"].Value) + 2000;
+                    int week = int.Parse(match.Groups["ww"].Value);
 
                     if (year > 2022 || (year == 2022 && week >= 45))
                         return CharacterResourceNames1193;
@@ -68,7 +77,7 @@ namespace OfflineMinecraftLauncher
         internal static string GetCharacterResourceNameFromUsernameAndGameVersion(string username, string minecraftVersion)
         {
             // Current username UUID
-            string playerUuid = GenerateUuidFromUsername(username);
+            var playerUuid = GenerateUuidFromUsername(username);
             return GetCharacterResourceNameFromUuidAndGameVersion(playerUuid, minecraftVersion);
         }
 
@@ -78,11 +87,18 @@ namespace OfflineMinecraftLauncher
         internal static string GetCharacterResourceNameFromUuidAndGameVersion(string playerUuid, string minecraftVersion)
         {
             // List of allowed characters for the game version
-            string[] characterSet = GetCharacterSetForVersion(minecraftVersion);
+            var characterSet = GetCharacterSetForVersion(minecraftVersion);
 
             // If the array only contains one entry, return that entry directly
-            int arrayLength = characterSet.Length;
-            if (arrayLength == 1)
+            if (characterSet.Length == 1)
+                return characterSet[0];
+
+            // If empty minecraftVersion
+            if (string.IsNullOrEmpty(minecraftVersion))
+                return characterSet[0];
+
+            // If empty playerUuid
+            if (string.IsNullOrEmpty(playerUuid))
                 return characterSet[0];
 
             // UUID3 string to bytes
@@ -99,7 +115,7 @@ namespace OfflineMinecraftLauncher
 
             long xor = (long)(hi ^ lo);
             int idx = (int)(xor ^ ((xor >> 32) & 0xffffffff)) % arrayLength;
-            if (idx < 0) idx += arrayLength;
+            if (idx < 0) idx += characterSet.Length;
 
             return characterSet[idx];
         }
@@ -110,6 +126,10 @@ namespace OfflineMinecraftLauncher
          */
         internal static string GenerateUuidFromUsername(string username)
         {
+            // Fallback name
+            if (string.IsNullOrEmpty(username))
+                username = "Player";
+
             // Minecraft offline player UUIDs are generated from the player name and
             // the fixed namespace "OfflinePlayer:".
             // The player name will define the UUID and thus the player Skin.
@@ -129,6 +149,7 @@ namespace OfflineMinecraftLauncher
 
             using var md5 = System.Security.Cryptography.MD5.Create();
             var hash = md5.ComputeHash(data);
+
             hash[6] = (byte)((hash[6] & 0x0F) | 0x30); // Version 3
             hash[8] = (byte)((hash[8] & 0x3F) | 0x80); // Variant RFC 4122
 

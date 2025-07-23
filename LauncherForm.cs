@@ -9,10 +9,10 @@ namespace OfflineMinecraftLauncher;
 public partial class LauncherForm : Form
 {
     private readonly MinecraftLauncher _launcher;
-
     private string _playerUuid = string.Empty;
 
-    private ToolTip _characterPreviewTooltip = new ToolTip();
+    private readonly ToolTip _characterPreviewTooltip = new ToolTip();
+    private readonly ToolTip _helpTooltip = new ToolTip();
 
     public LauncherForm()
     {
@@ -38,7 +38,7 @@ public partial class LauncherForm : Form
             usernameInput.Text = Environment.UserName;
 
         // Adding tooltip to the character picture box and help icon
-        new ToolTip().SetToolTip(characterHelpPictureBox, characterHelpPictureBox.Tag?.ToString());
+        _helpTooltip.SetToolTip(characterHelpPictureBox, characterHelpPictureBox.Tag?.ToString());
         _characterPreviewTooltip.SetToolTip(characterPictureBox, characterPictureBox.Tag?.ToString());
 
         // When loaded, list all versions
@@ -55,8 +55,12 @@ public partial class LauncherForm : Form
         foreach (var version in versions)
         {
             // Check if includeAll is enabled
-            if (version.GetVersionType() == MVersionType.Release || version.GetVersionType() == MVersionType.Custom || includeAll)
+            if (version.GetVersionType() == MVersionType.Release ||
+                version.GetVersionType() == MVersionType.Custom ||
+                includeAll)
+            {
                 cbVersion.Items.Add(version.Name);
+            }
         }
 
         // Default latest if not already set
@@ -67,6 +71,18 @@ public partial class LauncherForm : Form
     private async void btnStart_Click(object sender, EventArgs e)
     {
         // Disable UI while launching
+        if (string.IsNullOrEmpty(cbVersion.Text))
+        {
+            MessageBox.Show("Please select a Minecraft version.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(usernameInput.Text))
+        {
+            MessageBox.Show("Please enter a username.");
+            return;
+        }
+
         this.Enabled = false;
         btnStart.Text = "Launching";
 
@@ -94,35 +110,49 @@ public partial class LauncherForm : Form
         catch (Exception ex)
         {
             // Show error
-            MessageBox.Show(ex.ToString());
+            MessageBox.Show($"Failed to launch Minecraft:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        finally
+        {
+            // Reset UI
+            pbProgress.Value = 0;
+            pbFiles.Value = 0;
+            lbProgress.Text = "";
 
-        // Reset UI
-        pbProgress.Value = 0;
-        pbFiles.Value = 0;
-        lbProgress.Text = "";
-
-        this.Enabled = true;
-        btnStart.Text = "Launch";
+            this.Enabled = true;
+            btnStart.Text = "Launch";
+        }
     }
 
     private void _launcher_FileProgressChanged(object? sender, InstallerProgressChangedEventArgs args)
     {
+        if (InvokeRequired)
+        {
+            Invoke(new Action(() => _launcher_FileProgressChanged(sender, args)));
+            return;
+        }
+
         pbFiles.Maximum = args.TotalTasks;
-        pbFiles.Value = args.ProgressedTasks;
+        pbFiles.Value = Math.Min(args.ProgressedTasks, args.TotalTasks);
         lbProgress.Text = $"{args.Name} - {args.ProgressedTasks} / {args.TotalTasks}";
     }
 
     private void _launcher_ByteProgressChanged(object? sender, ByteProgress args)
     {
-        pbProgress.Maximum = ((int)args.TotalBytes);
-        pbProgress.Value = ((int)args.ProgressedBytes);
+        if (InvokeRequired)
+        {
+            Invoke(new Action(() => _launcher_ByteProgressChanged(sender, args)));
+            return;
+        }
+
+        pbProgress.Maximum = 100;
+        pbProgress.Value = (int)(args.ProgressedBytes * 100 / args.TotalBytes);
     }
 
     private void usernameInput_TextChanged(object sender, EventArgs e)
     {
         // Disabling the start button if the username is empty
-        if (string.IsNullOrEmpty(usernameInput.Text))
+        if (string.IsNullOrWhiteSpace(usernameInput.Text))
         {
             // If the username is empty, reset the UUID and character picture
             _playerUuid = string.Empty;
@@ -170,5 +200,4 @@ public partial class LauncherForm : Form
             }
         }
     }
-
 }
