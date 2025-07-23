@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfflineMinecraftLauncher", "OfflineMinecraftLauncher.csproj", "{A5BB2DF0-D9AC-4C0D-A15D-C4CEE681D716}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OfflineMinecraftLauncherSetup", "..\OfflineMinecraftLauncherSetup\OfflineMinecraftLauncherSetup.vdproj", "{C123A472-1B21-4921-B426-E0BEFD9BB1B0}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OfflineMinecraftLauncherSetup", "OfflineMinecraftLauncherSetup\OfflineMinecraftLauncherSetup.vdproj", "{C123A472-1B21-4921-B426-E0BEFD9BB1B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
