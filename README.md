@@ -12,8 +12,6 @@
 
 </div>
 
----
-
 ## Features
 - 🚫 No Microsoft account required
 - 🖥️ Clean modern interface
