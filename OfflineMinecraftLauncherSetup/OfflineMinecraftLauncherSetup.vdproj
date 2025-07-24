@@ -198,15 +198,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OfflineMinecraftLauncher"
-        "ProductCode" = "8:{FADDF4D8-4732-4C40-8D5C-7681A240753B}"
-        "PackageCode" = "8:{B2E3CE94-6601-44E2-99CE-589F17ECA081}"
+        "ProductCode" = "8:{71768A39-6F4B-458E-9685-D8FA3DB92370}"
+        "PackageCode" = "8:{9ABF5926-668C-44BD-A708-88E7B9A47B00}"
         "UpgradeCode" = "8:{2943F4B8-222C-45B5-A1FE-26284FE29AAB}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.1"
+        "ProductVersion" = "8:1.3.0"
         "Manufacturer" = "8:Github"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -748,7 +748,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_24EFA9DF06CA425A98413E3391704A87"
             {
-            "SourcePath" = "8:..\\obj\\Release\\net9.0-windows7.0\\apphost.exe"
+            "SourcePath" = "8:..\\obj\\Debug\\net9.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3407209A0BA143A18FDFA7A376070E98"
