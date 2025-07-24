@@ -18,6 +18,7 @@
 - 🚫 No Microsoft account required
 - 🖥️ Clean modern interface
 - ⚡ One-click installation
+- 🧩 Mod Support (using official jar/exe installers)
 
 ## Getting Started
 1. Download the `MSI installer` from [Releases](https://github.com/antunnitraj/OfflineMinecraftLauncher/releases/latest)
