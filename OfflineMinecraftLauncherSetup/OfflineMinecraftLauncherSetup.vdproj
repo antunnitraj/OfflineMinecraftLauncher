@@ -748,7 +748,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_24EFA9DF06CA425A98413E3391704A87"
             {
-            "SourcePath" = "8:..\\obj\\Debug\\net9.0-windows7.0\\apphost.exe"
+            "SourcePath" = "8:..\\obj\\Release\\net9.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3407209A0BA143A18FDFA7A376070E98"
