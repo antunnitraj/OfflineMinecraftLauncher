@@ -10,14 +10,22 @@ public partial class LauncherForm : Form
 {
     private readonly MinecraftLauncher _launcher;
     private string _playerUuid = string.Empty;
+    private MinecraftPath _launcherPath;
+    private string _launcherProfilesPath => _launcherPath.BasePath + "/launcher_profiles.json";
 
     private readonly ToolTip _characterPreviewTooltip = new ToolTip();
     private readonly ToolTip _helpTooltip = new ToolTip();
 
     public LauncherForm()
     {
-        // Make CMLauncher with default minecraft path
-        _launcher = new MinecraftLauncher(new MinecraftPath());
+        // Make MinecraftLauncher with default minecraft path
+        _launcherPath = new MinecraftPath();
+        _launcherPath.CreateDirs();
+        _launcher = new MinecraftLauncher(_launcherPath);
+
+        // Create launcher_profiles.json if it does not exist in the launcher path
+        if (!File.Exists(_launcherProfilesPath))
+            File.WriteAllText(_launcherProfilesPath, "{\"profiles\":{}}");
 
         // Attach events with functions
         _launcher.FileProgressChanged += _launcher_FileProgressChanged;
